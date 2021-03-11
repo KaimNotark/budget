@@ -9,7 +9,7 @@
           <span class="budget-value">
             {{ item.value }}
           </span>
-          <ElButton type="danger" size="mini">
+          <ElButton type="danger" size="mini" @click="deleteItem(item.id)">
             Delete
           </ElButton>
         </div>
@@ -36,6 +36,11 @@ export default {
   computed: {
     isEmpty() {
       return !Object.keys(this.list).length;
+    },
+  },
+  methods: {
+    deleteItem(id) {
+      this.$emit("deleteItem", id);
     },
   },
 };
