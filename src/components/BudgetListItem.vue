@@ -4,9 +4,14 @@
       <span class="budget-comment">
         {{ item.comment }}
       </span>
-      <span class="budget-value">
+      <span
+        class="budget-value"
+        :class="{ __red: item.value < 0, __green: item.value > 0 }"
+      >
         {{ item.value }}
       </span>
+      <i class="el-icon-top" v-if="item.value > 0"></i>
+      <i class="el-icon-bottom" v-else></i>
       <ElButton type="danger" size="mini" @click="deleteItem(item.id)">
         Delete
       </ElButton>
@@ -44,5 +49,12 @@ export default {
   font-weight: bold;
   margin-left: auto;
   margin-right: 20px;
+}
+
+.__red {
+  color: red;
+}
+.__green {
+  color: green;
 }
 </style>
