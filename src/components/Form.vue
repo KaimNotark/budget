@@ -75,12 +75,29 @@ export default {
 
   methods: {
     onSubmit() {
+      if (this.formData.type === "OUTCOME") {
+        this.checkValueOnNegative();
+      }
+
       this.$refs.addItemForm.validate((valid) => {
         if (valid) {
           this.$emit("submitForm", { ...this.formData });
           this.$refs.addItemForm.resetFields();
         }
       });
+    },
+
+    checkValueOnNegative() {
+      const enteredValue = this.formData.value;
+      if (enteredValue > 0) {
+        this.makeValueNegative(enteredValue);
+      }
+    },
+
+    makeValueNegative(value) {
+      const positiveValue = value;
+      let negativeValue = -positiveValue;
+      this.formData.value = negativeValue;
     },
   },
 };
