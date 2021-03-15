@@ -47,7 +47,9 @@ export default {
 
   methods: {
     onDeleteItem(id) {
-      this.$delete(this.list, id);
+      if (confirm("Are you sure you want to delete it?")) {
+        this.$delete(this.list, id);
+      }
     },
     onFormSubmit(data) {
       const newObj = {
