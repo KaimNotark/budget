@@ -69,6 +69,18 @@ export default {
           message: "Value shud be a number",
           trigger: "change",
         },
+        {
+          validator: (rule, value) => {
+            return new Promise((resolve, reject) => {
+              if (value === 0) {
+                reject("Not zero, please."); // reject with error message
+              } else {
+                resolve();
+              }
+            });
+          },
+          trigger: "change",
+        },
       ],
     },
   }),

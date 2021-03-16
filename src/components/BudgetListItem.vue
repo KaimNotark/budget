@@ -1,7 +1,5 @@
 <template>
   <div class="budget-list-item-wrap">
-    {{ sortByIncome }}
-    {{ sortByOutcome }}
     <div class="list-item" v-for="(item, prop) in list" :key="prop">
       <div class="item-wrap" v-if="item.type === sortByOutcome">
         <span class="budget-comment">
