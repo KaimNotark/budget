@@ -2,7 +2,13 @@
   <div id="app">
     <Form @submitForm="onFormSubmit" />
     <TotalBalance :total="totalBalance" />
-    <BudgetList :list="list" @deleteItem="onDeleteItem" />
+    <SortButtons @onIncome="onIncome" @onOutcome="onOutcome" @onAll="onAll" />
+    <BudgetList
+      :list="list"
+      @deleteItem="onDeleteItem"
+      :sortByIncome="sortByIncome"
+      :sortByOutcome="sortByOutcome"
+    />
   </div>
 </template>
 
@@ -10,6 +16,7 @@
 import BudgetList from "@/components/BudgetList";
 import TotalBalance from "@/components/TotalBalance";
 import Form from "@/components/Form";
+import SortButtons from "@/components/SortButtons";
 
 export default {
   name: "App",
@@ -17,9 +24,13 @@ export default {
     BudgetList,
     TotalBalance,
     Form,
+    SortButtons,
   },
 
   data: () => ({
+    sortByIncome: "INCOME",
+    sortByOutcome: "OUTCOME",
+
     list: {
       1: {
         type: "INCOME",
@@ -58,6 +69,18 @@ export default {
       };
 
       this.$set(this.list, newObj.id, newObj);
+    },
+    onIncome() {
+      this.sortByIncome = "INCOME";
+      this.sortByOutcome = "";
+    },
+    onOutcome() {
+      this.sortByIncome = "";
+      this.sortByOutcome = "OUTCOME";
+    },
+    onAll() {
+      this.sortByIncome = "INCOME";
+      this.sortByOutcome = "OUTCOME";
     },
   },
 };
