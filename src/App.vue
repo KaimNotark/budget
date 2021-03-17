@@ -3,12 +3,7 @@
     <Form @submitForm="onFormSubmit" />
     <TotalBalance :total="totalBalance" />
     <SortButtons @onIncome="onIncome" @onOutcome="onOutcome" @onAll="onAll" />
-    <BudgetList
-      :list="list"
-      @deleteItem="onDeleteItem"
-      :sortByIncome="sortByIncome"
-      :sortByOutcome="sortByOutcome"
-    />
+    <BudgetList :list="listArray" @deleteItem="onDeleteItem" />
   </div>
 </template>
 
@@ -28,8 +23,7 @@ export default {
   },
 
   data: () => ({
-    sortByIncome: "INCOME",
-    sortByOutcome: "OUTCOME",
+    listArray: [],
 
     list: {
       1: {
@@ -62,6 +56,7 @@ export default {
         this.$delete(this.list, id);
       }
     },
+
     onFormSubmit(data) {
       const newObj = {
         ...data,
@@ -70,18 +65,26 @@ export default {
 
       this.$set(this.list, newObj.id, newObj);
     },
+
     onIncome() {
-      this.sortByIncome = "INCOME";
-      this.sortByOutcome = "";
+      this.listArray = Object.values(this.list).filter(
+        (item) => item.type === "INCOME"
+      );
     },
+
     onOutcome() {
-      this.sortByIncome = "";
-      this.sortByOutcome = "OUTCOME";
+      this.listArray = Object.values(this.list).filter(
+        (item) => item.type === "OUTCOME"
+      );
     },
+
     onAll() {
-      this.sortByIncome = "INCOME";
-      this.sortByOutcome = "OUTCOME";
+      this.listArray = Object.values(this.list);
     },
+  },
+
+  created() {
+    this.listArray = Object.values(this.list);
   },
 };
 </script>

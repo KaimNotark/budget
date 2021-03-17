@@ -2,12 +2,7 @@
   <div class="budget-list-wrap">
     <ElCard :header="header">
       <template v-if="!isEmpty">
-        <BudgetListItem
-          :list="list"
-          @deleteItem="deleteItem"
-          :sortByIncome="sortByIncome"
-          :sortByOutcome="sortByOutcome"
-        />
+        <BudgetListItem :list="list" @deleteItem="deleteItem" />
       </template>
 
       <ElAlert v-else type="info" :title="emptyTitle" :closable="false" />
@@ -25,20 +20,9 @@ export default {
   },
 
   props: {
-    sortByIncome: {
-      type: String,
-      require: true,
-      default: "INCOME",
-    },
-    sortByOutcome: {
-      type: String,
-      require: true,
-      default: "OUTCOME",
-    },
-
     list: {
-      type: Object,
-      default: () => ({}),
+      type: Array,
+      default: () => [],
     },
   },
   data: () => ({

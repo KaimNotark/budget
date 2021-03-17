@@ -1,46 +1,23 @@
 <template>
   <div class="budget-list-item-wrap">
     <div class="list-item" v-for="(item, prop) in list" :key="prop">
-      <div class="item-wrap" v-if="item.type === sortByOutcome">
-        <span class="budget-comment">
-          {{ item.comment }}
-        </span>
-        <span
-          class="budget-value"
-          :class="{ __red: item.value < 0, __green: item.value > 0 }"
-        >
-          <i class="el-icon-top" v-if="item.value > 0"></i>
-          <i class="el-icon-bottom" v-else></i>
-          {{ item.value }}
-        </span>
-        <ElButton
-          type="danger"
-          icon="el-icon-delete"
-          circle
-          @click="deleteItem(item.id)"
-        ></ElButton>
-      </div>
-    </div>
-    <div class="list-item" v-for="(item, prop) in list" :key="prop + 'q'">
-      <div class="item-wrap" v-if="item.type === sortByIncome">
-        <span class="budget-comment">
-          {{ item.comment }}
-        </span>
-        <span
-          class="budget-value"
-          :class="{ __red: item.value < 0, __green: item.value > 0 }"
-        >
-          <i class="el-icon-top" v-if="item.value > 0"></i>
-          <i class="el-icon-bottom" v-else></i>
-          {{ item.value }}
-        </span>
-        <ElButton
-          type="danger"
-          icon="el-icon-delete"
-          circle
-          @click="deleteItem(item.id)"
-        ></ElButton>
-      </div>
+      <span class="budget-comment">
+        {{ item.comment }}
+      </span>
+      <span
+        class="budget-value"
+        :class="{ __red: item.value < 0, __green: item.value > 0 }"
+      >
+        <i class="el-icon-top" v-if="item.value > 0"></i>
+        <i class="el-icon-bottom" v-else></i>
+        {{ item.value }}
+      </span>
+      <ElButton
+        type="danger"
+        icon="el-icon-delete"
+        circle
+        @click="deleteItem(item.id)"
+      ></ElButton>
     </div>
   </div>
 </template>
@@ -49,21 +26,12 @@
 export default {
   name: "BudgetListItem",
 
-  props: {
-    sortByIncome: {
-      type: String,
-      require: true,
-      default: "INCOME",
-    },
-    sortByOutcome: {
-      type: String,
-      require: true,
-      default: "OUTCOME",
-    },
+  data: () => ({}),
 
+  props: {
     list: {
-      type: Object,
-      default: () => ({}),
+      type: Array,
+      default: () => [],
     },
   },
 
@@ -72,6 +40,8 @@ export default {
       this.$emit("deleteItem", id);
     },
   },
+
+  computed: {},
 };
 </script>
 
