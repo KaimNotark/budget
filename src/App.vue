@@ -2,7 +2,8 @@
   <div id="app">
     <Form @submitForm="onFormSubmit" />
     <TotalBalance :total="totalBalance" />
-    <BudgetList :list="list" @deleteItem="onDeleteItem" />
+    <SortButtons @onIncome="onIncome" @onOutcome="onOutcome" @onAll="onAll" />
+    <BudgetList :list="listArray" @deleteItem="onDeleteItem" />
   </div>
 </template>
 
@@ -10,6 +11,7 @@
 import BudgetList from "@/components/BudgetList";
 import TotalBalance from "@/components/TotalBalance";
 import Form from "@/components/Form";
+import SortButtons from "@/components/SortButtons";
 
 export default {
   name: "App",
@@ -17,9 +19,12 @@ export default {
     BudgetList,
     TotalBalance,
     Form,
+    SortButtons,
   },
 
   data: () => ({
+    listArray: [],
+
     list: {
       1: {
         type: "INCOME",
@@ -47,8 +52,11 @@ export default {
 
   methods: {
     onDeleteItem(id) {
-      this.$delete(this.list, id);
+      if (confirm("Are you sure you want to delete it?")) {
+        this.$delete(this.list, id);
+      }
     },
+
     onFormSubmit(data) {
       const newObj = {
         ...data,
@@ -57,6 +65,26 @@ export default {
 
       this.$set(this.list, newObj.id, newObj);
     },
+
+    onIncome() {
+      this.listArray = Object.values(this.list).filter(
+        (item) => item.type === "INCOME"
+      );
+    },
+
+    onOutcome() {
+      this.listArray = Object.values(this.list).filter(
+        (item) => item.type === "OUTCOME"
+      );
+    },
+
+    onAll() {
+      this.listArray = Object.values(this.list);
+    },
+  },
+
+  created() {
+    this.listArray = Object.values(this.list);
   },
 };
 </script>
