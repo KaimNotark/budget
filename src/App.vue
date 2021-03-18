@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <!-- {{list}} -->
     <Form @submitForm="onFormSubmit" />
     <TotalBalance :total="totalBalance" />
     <SortButtons @onIncome="onIncome" @onOutcome="onOutcome" @onAll="onAll" />
@@ -13,6 +14,8 @@ import TotalBalance from "@/components/TotalBalance";
 import Form from "@/components/Form";
 import SortButtons from "@/components/SortButtons";
 
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "App",
   components: {
@@ -24,67 +27,46 @@ export default {
 
   data: () => ({
     listArray: [],
-
-    list: {
-      1: {
-        type: "INCOME",
-        value: 100,
-        comment: "Some comments",
-        id: 1,
-      },
-      2: {
-        type: "OUTCOME",
-        value: -50,
-        comment: "Some comments",
-        id: 2,
-      },
-    },
   }),
 
   computed: {
+    ...mapGetters("budget", ["list"]),
+
     totalBalance() {
-      return Object.values(this.list).reduce(
-        (acc, item) => acc + item.value,
-        0
-      );
+      return this.list.reduce((acc, item) => acc + item.value, 0);
     },
   },
 
   methods: {
+    ...mapActions("budget", ["dellItem", "addItem"]),
+
     onDeleteItem(id) {
       if (confirm("Are you sure you want to delete it?")) {
-        this.$delete(this.list, id);
+        this.dellItem(id);
+        this.listArray = this.list;
       }
     },
 
     onFormSubmit(data) {
-      const newObj = {
-        ...data,
-        id: String(Math.random()),
-      };
-
-      this.$set(this.list, newObj.id, newObj);
+      this.addItem(data);
+      this.listArray = this.list;
     },
 
     onIncome() {
-      this.listArray = Object.values(this.list).filter(
-        (item) => item.type === "INCOME"
-      );
+      this.listArray = this.list.filter((item) => item.type === "INCOME");
     },
 
     onOutcome() {
-      this.listArray = Object.values(this.list).filter(
-        (item) => item.type === "OUTCOME"
-      );
+      this.listArray = this.list.filter((item) => item.type === "OUTCOME");
     },
 
     onAll() {
-      this.listArray = Object.values(this.list);
+      this.listArray = this.list;
     },
   },
 
   created() {
-    this.listArray = Object.values(this.list);
+    this.listArray = this.list;
   },
 };
 </script>
