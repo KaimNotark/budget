@@ -13,6 +13,8 @@ import TotalBalance from "@/components/TotalBalance";
 import Form from "@/components/Form";
 import SortButtons from "@/components/SortButtons";
 
+import { mapGetters } from "vuex";
+
 export default {
   name: "App",
   components: {
@@ -25,23 +27,25 @@ export default {
   data: () => ({
     listArray: [],
 
-    list: {
-      1: {
-        type: "INCOME",
-        value: 100,
-        comment: "Some comments",
-        id: 1,
-      },
-      2: {
-        type: "OUTCOME",
-        value: -50,
-        comment: "Some comments",
-        id: 2,
-      },
-    },
+    // list: {
+    //   1: {
+    //     type: "INCOME",
+    //     value: 100,
+    //     comment: "Some comments",
+    //     id: 1,
+    //   },
+    //   2: {
+    //     type: "OUTCOME",
+    //     value: -50,
+    //     comment: "Some comments",
+    //     id: 2,
+    //   },
+    // },
   }),
 
   computed: {
+    ...mapGetters("budget", ["list"]),
+
     totalBalance() {
       return Object.values(this.list).reduce(
         (acc, item) => acc + item.value,
