@@ -1,3 +1,5 @@
+import Vue from "vue";
+
 const budgetStore = {
   namespaced: true,
 
@@ -16,8 +18,8 @@ const budgetStore = {
         id: 2,
       },
       3: {
-        type: "OUTCOME",
-        value: -70,
+        type: "INCOME",
+        value: 70,
         comment: "Some comments",
         id: 3,
       },
@@ -28,9 +30,18 @@ const budgetStore = {
     list: ({ list }) => Object.values(list),
   },
 
-  mutations: {},
+  mutations: {
+    DELL_ITEM(state, id) {
+      console.log("DELL_ITEM", state, id);
+      Vue.delete(state.list, id);
+    },
+  },
 
-  actions: {},
+  actions: {
+    dellItem({ commit }, id) {
+      commit("DELL_ITEM", id);
+    },
+  },
 };
 
 export default budgetStore;
