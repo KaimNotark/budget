@@ -32,14 +32,23 @@ const budgetStore = {
 
   mutations: {
     DELL_ITEM(state, id) {
-      console.log("DELL_ITEM", state, id);
       Vue.delete(state.list, id);
+    },
+
+    ADD_ITEM(state, item) {
+      console.log("ADD_ITEM", state, item);
+      Vue.set(state.list, item.id, item);
     },
   },
 
   actions: {
     dellItem({ commit }, id) {
       commit("DELL_ITEM", id);
+    },
+
+    addItem({ commit }, item) {
+      const newItem = { ...item, id: String(Math.random()) };
+      commit("ADD_ITEM", newItem);
     },
   },
 };

@@ -38,7 +38,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("budget", ["dellItem"]),
+    ...mapActions("budget", ["dellItem", "addItem"]),
 
     onDeleteItem(id) {
       if (confirm("Are you sure you want to delete it?")) {
@@ -48,12 +48,8 @@ export default {
     },
 
     onFormSubmit(data) {
-      const newObj = {
-        ...data,
-        id: String(Math.random()),
-      };
-
-      this.$set(this.list, newObj.id, newObj);
+      this.addItem(data);
+      this.listArray = this.list;
     },
 
     onIncome() {
